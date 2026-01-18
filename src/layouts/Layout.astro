@@ -1,6 +1,6 @@
 ---
 import Navbar from "@/components/Navbar.astro";
-import Footer from "../components/Footer.astro";
+import Footer from "@/components/Footer.astro";
 import "../styles/global.css";
 import "../styles/styles.css";
 import { ClientRouter } from "astro:transitions";
@@ -33,7 +33,7 @@ import { ClientRouter } from "astro:transitions";
     <ClientRouter />
   </head>
 
-  <body class="bg-charcoal-500">
+  <body>
     <Navbar />
     <slot />
     <Footer />

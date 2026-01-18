@@ -6,14 +6,16 @@ const navLinks = [
 ];
 ---
 
-<nav class="sticky top-0 z-50 bg-charcoal-800 shadow-md">
+<nav
+  class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-charcoal-100 shadow-sm"
+>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <div class="flex items-center">
         <a
           href="/"
-          class="text-negroni-500 font-bold text-xl hover:text-tomato-500 duration-200"
+          class="text-charcoal-900 font-bold text-xl hover:text-tomato-600 transition-colors duration-200"
         >
           Aspecs Gaming
         </a>
@@ -26,7 +28,7 @@ const navLinks = [
             navLinks.map((link) => (
               <a
                 href={link.href}
-                class="text-white hover:text-negroni-500 px-3 py-2 rounded-md text-sm font-medium duration-200"
+                class="text-charcoal-600 hover:text-tomato-600 px-3 py-2 rounded-md text-sm font-bold transition-colors duration-200"
               >
                 {link.name}
               </a>
@@ -40,7 +42,7 @@ const navLinks = [
         <button
           type="button"
           id="mobile-menu-button"
-          class="inline-flex items-center justify-center p-2 rounded-md text-negroni-500 hover:text-tomato-500 hover:bg-charcoal-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-negroni-500 transition-colors duration-200"
+          class="inline-flex items-center justify-center p-2 rounded-lg text-charcoal-900 hover:bg-charcoal-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-tomato-500 transition-all duration-200"
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
@@ -79,13 +81,13 @@ const navLinks = [
   <!-- Mobile menu -->
   <div class="md:hidden hidden" id="mobile-menu">
     <div
-      class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-charcoal-900 border-t border-charcoal-700"
+      class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-charcoal-100"
     >
       {
         navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-white hover:text-negroni-500 hover:bg-charcoal-700 block px-3 py-2 rounded-md text-base font-medium duration-200"
+            class="text-charcoal-600 hover:text-tomato-600 hover:bg-charcoal-50 block px-3 py-2 rounded-md text-base font-bold transition-all duration-200"
           >
             {link.name}
           </a>

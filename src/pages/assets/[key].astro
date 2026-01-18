@@ -58,15 +58,15 @@ const currentYear = new Date().getFullYear();
                 {asset.title}
               </h1>
               <p
-                class="text-md text-white mb-6 text-center md:text-left max-w-2xl"
+                class="text-md mb-6 text-center md:text-left max-w-2xl"
               >
                 {asset.short_text || "No description available."}
               </p>
 
               <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                 <div>
-                  <h2 class="text-xl font-semibold text-white">Details:</h2>
-                  <ul class="text-white mt-2 space-y-1">
+                  <h2 class="text-xl font-semibold">Details:</h2>
+                  <ul class="mt-2 space-y-1">
                     <li>
                       <strong>Published on:</strong>
                       {new Date(asset.published_at).toLocaleDateString()}
@@ -87,8 +87,8 @@ const currentYear = new Date().getFullYear();
               {
                 asset.earnings && asset.earnings.length > 0 && (
                   <div class="mt-6">
-                    <h2 class="text-xl font-semibold text-white">Earnings:</h2>
-                    <ul class="text-white mt-2 space-y-1">
+                    <h2 class="text-xl font-semibold">Earnings:</h2>
+                    <ul class="mt-2 space-y-1">
                       {asset.earnings.map((earning) => (
                         <li>
                           {earning.amount_formatted} ({earning.currency})

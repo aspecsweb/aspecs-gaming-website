@@ -25,17 +25,14 @@ const fetchAssets = async () => {
 
     let games = data.games;
 
-    // Apply price filter
     if (priceFilter === "free") {
       games = games.filter((game: any) => game.min_price === 0);
     } else if (priceFilter === "paid") {
       games = games.filter((game: any) => game.min_price > 0);
     }
 
-    // Apply sorting
     games.sort((a: any, b: any) => {
       let comparison = 0;
-
       switch (sortType) {
         case "downloads":
           comparison = (b.downloads_count || 0) - (a.downloads_count || 0);
@@ -43,12 +40,11 @@ const fetchAssets = async () => {
         case "views":
           comparison = (b.views_count || 0) - (a.views_count || 0);
           break;
-        default: // published
+        default:
           comparison =
             new Date(b.published_at).getTime() -
             new Date(a.published_at).getTime();
       }
-
       return sortDirection === "asc" ? -comparison : comparison;
     });
 
@@ -62,27 +58,31 @@ const fetchAssets = async () => {
 const assets = await fetchAssets();
 ---
 
-<div class="grid grid-cols-1 gap-6 lg:gap-y-32 md:grid-cols-2" id="assets-grid">
+<div class="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2" id="assets-grid">
   {
     assets.map(
       (asset) =>
         asset.published && (
-          <figure>
-            <a href={`/assets/${asset.id}`}>
-              <img
-                class="w-full rounded-3xl shadow-2xl object-cover"
-                src={asset.cover_url}
-                alt={`Cover for ${asset.title}`}
-              />
-              <div class="mt-4 flex justify-between px-6">
-                <div>
-                  <h3 class="text-sm text-negroni-500">{asset.title}</h3>
-                  <p class="mt-1 text-lg font-medium leading-6 text-white">
-                    {asset.short_text || "No description, just vibes."}
+          <figure class="group">
+            <a href={`/assets/${asset.id}`} class="block">
+              <div class="overflow-hidden rounded-2xl bg-charcoal-50 aspect-video mb-6 shadow-sm border border-charcoal-100">
+                <img
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  src={asset.cover_url}
+                  alt={`Cover for ${asset.title}`}
+                />
+              </div>
+              <div class="px-2">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="text-xl font-bold text-charcoal-900 group-hover:text-tomato-600 transition-colors">
+                    {asset.title}
+                  </h3>
+                  <p class="text-sm font-bold text-tomato-500">
+                    {asset.min_price === 0 ? "Free" : "Paid"}
                   </p>
                 </div>
-                <p class="text-base text-tomato-500">
-                  {asset.min_price === 0 ? "Free" : "Paid"}
+                <p class="text-charcoal-500 leading-relaxed line-clamp-2">
+                  {asset.short_text || "No description, just vibes."}
                 </p>
               </div>
             </a>
@@ -94,12 +94,12 @@ const assets = await fetchAssets();
 
 {
   showSeeAll && amount && (
-    <div class="text-center mt-12">
+    <div class="text-center mt-20">
       <a
-        class="h-12 justify-center font-semibold rounded-full border-negroni-500 duration-200 focus:outline-none inline-flex px-6 py-3 text-center w-full text-negroni-500 lg:w-auto border focus-visible:outline-negroni-500 text-negroni-500/80"
+        class="inline-flex items-center justify-center h-14 px-10 font-bold rounded-full border-2 border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition-all duration-200"
         href="/assets"
       >
-        See All
+        See All Assets
       </a>
     </div>
   )
