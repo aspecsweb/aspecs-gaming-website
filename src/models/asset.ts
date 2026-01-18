@@ -1,4 +1,4 @@
-export interface Project {
+export interface Asset {
   id: number;
   title: string;
   cover_url: string;

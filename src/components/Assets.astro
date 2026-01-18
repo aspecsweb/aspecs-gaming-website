@@ -30,7 +30,7 @@ const assets = await fetchAssets();
           (asset) =>
             asset.published && (
               <figure>
-                <a href={`/projects/${asset.id}`}>
+                <a href={`/assets/${asset.id}`}>
                   <img
                     class="w-full rounded-3xl shadow-2xl object-cover"
                     src={asset.cover_url}
@@ -54,7 +54,7 @@ const assets = await fetchAssets();
     <div class="text-center mt-12">
       <a
         class="h-12 justify-center font-semibold rounded-full border-negroni-500 duration-200 focus:outline-none inline-flex px-6 py-3 text-center w-full text-negroni-500 lg:w-auto border focus-visible:outline-negroni-500 text-negroni-500/80"
-        href="/projects">Show more</a
+        href="/assets">See All</a
       >
     </div>
   </div>

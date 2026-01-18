@@ -1,16 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import type { Project } from "@/models/project";
+import type { Asset } from "@/models/asset";
 
 export async function getStaticPaths() {
   const apiKey = import.meta.env.ITCHIO_KEY;
   if (!apiKey) throw new Error("ItchIO API Key is missing");
 
-  const fetchAssets = async (): Promise<Project[]> => {
+  const fetchAssets = async (): Promise<Asset[]> => {
     try {
       const response = await fetch(`https://itch.io/api/1/${apiKey}/my-games`);
       const data = await response.json();
-      return data.games.map((game: Project) => ({
+      return data.games.map((game: Asset) => ({
         id: game.id,
         title: game.title,
         cover_url: game.cover_url,
@@ -32,15 +32,15 @@ export async function getStaticPaths() {
 
   return games.map((game) => ({
     params: { key: game.id.toString() },
-    props: { project: game },
+    props: { asset: game },
   }));
 }
 
-const { project } = Astro.props as { project: Project };
+const { asset } = Astro.props as { asset: Asset };
 const currentYear = new Date().getFullYear();
 ---
 
-<Layout title={`${project.title} - Aspecs Gaming`}>
+<Layout title={`${asset.title} - Aspecs Gaming`}>
   <body>
     <main class="relative overflow-hidden">
       <section class="relative mx-auto px-8 max-w-7xl py-24 md:px-12">
@@ -48,19 +48,19 @@ const currentYear = new Date().getFullYear();
           <figure class="md:flex md:items-start md:gap-12">
             <img
               class="w-full md:w-1/2 rounded-3xl shadow-2xl object-cover"
-              src={project.cover_url}
-              alt={`Cover for ${project.title}`}
+              src={asset.cover_url}
+              alt={`Cover for ${asset.title}`}
             />
             <div class="md:w-1/2 mt-6 md:mt-0">
               <h1
                 class="text-3xl md:text-5xl font-bold text-negroni-500 mb-4 text-center md:text-left"
               >
-                {project.title}
+                {asset.title}
               </h1>
               <p
                 class="text-md text-white mb-6 text-center md:text-left max-w-2xl"
               >
-                {project.short_text || "No description available."}
+                {asset.short_text || "No description available."}
               </p>
 
               <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
@@ -69,27 +69,27 @@ const currentYear = new Date().getFullYear();
                   <ul class="text-white mt-2 space-y-1">
                     <li>
                       <strong>Published on:</strong>
-                      {new Date(project.published_at).toLocaleDateString()}
+                      {new Date(asset.published_at).toLocaleDateString()}
                     </li>
-                    <li><strong>Views:</strong> {project.views_count}</li>
+                    <li><strong>Views:</strong> {asset.views_count}</li>
                     <li>
                       <strong>Downloads:</strong>
-                      {project.downloads_count}
+                      {asset.downloads_count}
                     </li>
                     <li>
                       <strong>Minimum Price:</strong>
-                      {project.min_price > 0 ? `$${project.min_price}` : "Free"}
+                      {asset.min_price > 0 ? `$${asset.min_price}` : "Free"}
                     </li>
                   </ul>
                 </div>
               </div>
 
               {
-                project.earnings && project.earnings.length > 0 && (
+                asset.earnings && asset.earnings.length > 0 && (
                   <div class="mt-6">
                     <h2 class="text-xl font-semibold text-white">Earnings:</h2>
                     <ul class="text-white mt-2 space-y-1">
-                      {project.earnings.map((earning) => (
+                      {asset.earnings.map((earning) => (
                         <li>
                           {earning.amount_formatted} ({earning.currency})
                         </li>
@@ -100,7 +100,7 @@ const currentYear = new Date().getFullYear();
               }
               <div class="flex items-center mt-6 gap-4">
                 <a
-                  href={project.url}
+                  href={asset.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="items-center h-12 justify-center rounded-full font-semibold duration-200 focus:outline-none inline-flex px-6 py-3 text-center border-2 hover:bg-transparent border-negroni-500 bg-negroni-500 focus-visible:outline-negroni-500 focus-visible:ring-negroni-500 hover:border-negroni-500 hover:text-negroni-500 text-charcoal-500"
@@ -108,10 +108,10 @@ const currentYear = new Date().getFullYear();
                   View on Itch.io
                 </a>
                 <a
-                  href="/"
+                  href="/assets"
                   class="inline-flex items-center text-negroni-500 hover:text-negroni-300 font-semibold"
                 >
-                  Back to Projects
+                  Back to Assets
                 </a>
               </div>
             </div>
