@@ -1,5 +1,19 @@
 ---
-const { amount } = Astro.props;
+interface Props {
+  amount?: number;
+  showSeeAll?: boolean;
+  priceFilter?: string;
+  sortType?: string;
+  sortDirection?: "asc" | "desc";
+}
+
+const {
+  amount,
+  showSeeAll = true,
+  priceFilter = "",
+  sortType = "published",
+  sortDirection = "desc",
+} = Astro.props;
 
 const apiKey = import.meta.env.ITCHIO_KEY;
 if (!apiKey) throw new Error("ItchIO API Key is missing");
@@ -8,11 +22,37 @@ const fetchAssets = async () => {
   try {
     const response = await fetch(`https://itch.io/api/1/${apiKey}/my-games`);
     const data = await response.json();
-    data.games.sort(
-      (a: { published_at: string }, b: { published_at: string }) =>
-        new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
-    );
-    return amount ? data.games.slice(0, amount) : data.games;
+
+    let games = data.games;
+
+    // Apply price filter
+    if (priceFilter === "free") {
+      games = games.filter((game: any) => game.min_price === 0);
+    } else if (priceFilter === "paid") {
+      games = games.filter((game: any) => game.min_price > 0);
+    }
+
+    // Apply sorting
+    games.sort((a: any, b: any) => {
+      let comparison = 0;
+
+      switch (sortType) {
+        case "downloads":
+          comparison = (b.downloads_count || 0) - (a.downloads_count || 0);
+          break;
+        case "views":
+          comparison = (b.views_count || 0) - (a.views_count || 0);
+          break;
+        default: // published
+          comparison =
+            new Date(b.published_at).getTime() -
+            new Date(a.published_at).getTime();
+      }
+
+      return sortDirection === "asc" ? -comparison : comparison;
+    });
+
+    return amount ? games.slice(0, amount) : games;
   } catch (error) {
     console.error("Error fetching assets:", error);
     return [];
@@ -22,40 +62,45 @@ const fetchAssets = async () => {
 const assets = await fetchAssets();
 ---
 
-<main>
-  <div class="relative mx-auto px-8 max-w-7xl py-12 md:px-12">
-    <div class="grid grid-cols-1 gap-6 lg:gap-y-32 md:grid-cols-2">
-      {
-        assets.map(
-          (asset) =>
-            asset.published && (
-              <figure>
-                <a href={`/assets/${asset.id}`}>
-                  <img
-                    class="w-full rounded-3xl shadow-2xl object-cover"
-                    src={asset.cover_url}
-                    alt={`Cover for ${asset.title}`}
-                  />
-                  <div class="mt-4 flex justify-between px-6">
-                    <div>
-                      <h3 class="text-sm text-negroni-500">{asset.title}</h3>
-                      <p class="mt-1 text-lg font-medium leading-6 text-white">
-                        {asset.short_text || "No description, just vibes."}
-                      </p>
-                    </div>
-                    <p class="text-base text-tomato-500">Free</p>
-                  </div>
-                </a>
-              </figure>
-            ),
-        )
-      }
-    </div>
+<div class="grid grid-cols-1 gap-6 lg:gap-y-32 md:grid-cols-2" id="assets-grid">
+  {
+    assets.map(
+      (asset) =>
+        asset.published && (
+          <figure>
+            <a href={`/assets/${asset.id}`}>
+              <img
+                class="w-full rounded-3xl shadow-2xl object-cover"
+                src={asset.cover_url}
+                alt={`Cover for ${asset.title}`}
+              />
+              <div class="mt-4 flex justify-between px-6">
+                <div>
+                  <h3 class="text-sm text-negroni-500">{asset.title}</h3>
+                  <p class="mt-1 text-lg font-medium leading-6 text-white">
+                    {asset.short_text || "No description, just vibes."}
+                  </p>
+                </div>
+                <p class="text-base text-tomato-500">
+                  {asset.min_price === 0 ? "Free" : "Paid"}
+                </p>
+              </div>
+            </a>
+          </figure>
+        ),
+    )
+  }
+</div>
+
+{
+  showSeeAll && amount && (
     <div class="text-center mt-12">
       <a
         class="h-12 justify-center font-semibold rounded-full border-negroni-500 duration-200 focus:outline-none inline-flex px-6 py-3 text-center w-full text-negroni-500 lg:w-auto border focus-visible:outline-negroni-500 text-negroni-500/80"
-        href="/assets">See All</a
+        href="/assets"
       >
+        See All
+      </a>
     </div>
-  </div>
-</main>
+  )
+}

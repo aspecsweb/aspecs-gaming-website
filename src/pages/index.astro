@@ -6,5 +6,20 @@ import Assets from "../components/Assets.astro";
 
 <Layout>
   <Hero />
-  <Assets amount={2} />
+  <section class="relative">
+    <div class="mx-auto px-8 max-w-7xl py-24 md:px-12">
+      <!-- Section Header -->
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl font-bold text-white mb-4">
+          Latest Assets
+        </h2>
+        <p class="text-lg text-negroni-400 max-w-2xl mx-auto">
+          Check out my most recent game assets and resources
+        </p>
+      </div>
+
+      <!-- Assets Grid -->
+      <Assets amount={2} showSeeAll={true} />
+    </div>
+  </section>
 </Layout>
