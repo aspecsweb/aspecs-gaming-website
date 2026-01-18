@@ -1,63 +1,79 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import Section from "@/components/Section.astro";
+import Container from "@/components/Container.astro";
+import Heading from "@/components/Heading.astro";
 ---
 
-<Layout title="Imprint">
-  <header class="relative py-12 bg-negroni-500">
-    <div class="max-w-7xl mx-auto px-8 md:px-12 text-center">
-      <nav class="flex justify-between items-center mb-8">
-        <div></div>
-        <div>
+<Layout title="Imprint | Aspecs Gaming">
+  <main class="bg-white">
+    <!-- Header Section -->
+    <Section class="bg-charcoal-900 pt-32 pb-12">
+      <Container>
+        <div class="flex justify-between items-center mb-12">
           <a
             href="/"
-            class="text-lg hover:text-tomato-500 duration-200"
-            >Back</a
+            class="text-negroni-200/50 hover:text-white flex items-center gap-2 transition-colors font-bold text-sm uppercase tracking-widest"
           >
+            <i class="ri-arrow-left-line"></i> Back to Home
+          </a>
         </div>
-      </nav>
-      <div class="hero">
-        <h1 class="text-4xl font-bold">Imprint</h1>
-      </div>
-    </div>
-  </header>
+        <Heading class="prose-invert">
+          <h1
+            slot="heading-title"
+            class="text-white text-5xl md:text-7xl font-black tracking-tighter"
+          >
+            Imprint.
+          </h1>
+        </Heading>
+      </Container>
+    </Section>
 
-  <section class="max-w-7xl mx-auto px-8 md:px-12 py-12">
-    <div class="mb-8">
-      <h2 class="text-2xl font-semibold mt-8 mb-4">
-        Information in accordance with Section 5 TMG
-      </h2>
-      <p class="text-lg">Paul Pietzko<br />Switzerland</p>
-    </div>
-
-    <div class="mb-8">
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Contact</h2>
-      <p>
-        Phone: +41 78 241 28 12<br />
-        E-Mail: <a
-          href="mailto:info@aspecs.ch"
-          class="text-negroni-500 hover:underline"
+    <!-- Content Section -->
+    <Section>
+      <Container class="max-w-4xl">
+        <div
+          class="prose prose-charcoal lg:prose-lg prose-h2:text-charcoal-900 prose-h2:font-black prose-h2:tracking-tight prose-a:text-tomato-600 prose-a:no-underline hover:prose-a:underline"
         >
-          info@aspecs.ch
-        </a>
-      </p>
-    </div>
+          <h2 class="text-2xl font-semibold mt-8 mb-4">
+            Information in accordance with Section 5 TMG
+          </h2>
+          <p class="text-lg">Paul Pietzko<br />Switzerland</p>
+        </div>
 
-    <div class="mb-8">
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Responsible for content</h2>
-      <p>Paul Pietzko</p>
-    </div>
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold mt-8 mb-4">Contact</h2>
+          <p>
+            Phone: +41 78 241 28 12<br />
+            E-Mail: <a
+              href="mailto:info@aspecs.ch"
+              class="text-negroni-500 hover:underline"
+            >
+              info@aspecs.ch
+            </a>
+          </p>
+        </div>
 
-    <div class="mb-8">
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Disclaimer</h2>
-      <p>
-        The contents of our pages have been created with the utmost care.
-        However, we cannot guarantee the contents' accuracy, completeness, or
-        topicality. According to statutory provisions, we are furthermore
-        responsible for our own content on these web pages. In this context,
-        please note that we are accordingly not obliged to monitor merely the
-        transmitted or saved information of third parties, or investigate
-        circumstances pointing to illegal activity.
-      </p>
-    </div>
-  </section>
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold mt-8 mb-4">
+            Responsible for content
+          </h2>
+          <p>Paul Pietzko</p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold mt-8 mb-4">Disclaimer</h2>
+          <p>
+            The contents of our pages have been created with the utmost care.
+            However, we cannot guarantee the contents' accuracy, completeness,
+            or topicality. According to statutory provisions, we are furthermore
+            responsible for our own content on these web pages. In this context,
+            please note that we are accordingly not obliged to monitor merely
+            the transmitted or saved information of third parties, or
+            investigate circumstances pointing to illegal activity.
+          </p>
+        </div>
+      </Container>
+    </Section>
+  </main>
 </Layout>

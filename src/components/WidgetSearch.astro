@@ -1,0 +1,74 @@
+---
+
+---
+
+<div
+  class="bg-white sticky top-10 z-40 p-4 rounded-2xl shadow-xl border border-charcoal-100 -mt-10 relative max-w-5xl"
+>
+  <form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <!-- Search Input -->
+    <div class="flex flex-col">
+      <label
+        for="search"
+        class="text-[10px] font-bold uppercase tracking-widest text-charcoal-400 mb-1 ml-1"
+        >Search Assets</label
+      >
+      <div class="relative">
+        <i
+          class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-400"
+        ></i>
+        <input
+          type="text"
+          id="search"
+          placeholder="Enter keyword..."
+          class="w-full bg-charcoal-50 border-none rounded-xl py-3 pl-10 pr-4 text-sm font-medium text-charcoal-900 focus:ring-2 focus:ring-tomato-500 transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- Price Filter -->
+    <div class="flex flex-col">
+      <label
+        for="price"
+        class="text-[10px] font-bold uppercase tracking-widest text-charcoal-400 mb-1 ml-1"
+        >Price Range</label
+      >
+      <select
+        id="price"
+        class="bg-charcoal-50 border-none rounded-xl py-3 px-4 text-sm font-bold text-charcoal-900 focus:ring-2 focus:ring-tomato-500 transition-all cursor-pointer"
+      >
+        <option value="">All Prices</option>
+        <option value="free">Free Only</option>
+        <option value="paid">Paid Only</option>
+      </select>
+    </div>
+
+    <!-- Sort By -->
+    <div class="flex flex-col">
+      <label
+        for="sortType"
+        class="text-[10px] font-bold uppercase tracking-widest text-charcoal-400 mb-1 ml-1"
+        >Sort By</label
+      >
+      <select
+        id="sortType"
+        class="bg-charcoal-50 border-none rounded-xl py-3 px-4 text-sm font-bold text-charcoal-900 focus:ring-2 focus:ring-tomato-500 transition-all cursor-pointer"
+      >
+        <option value="published">Newest First</option>
+        <option value="downloads">Most Downloads</option>
+        <option value="views">Most Views</option>
+      </select>
+    </div>
+
+    <!-- Search Button (Visual/Reset) -->
+    <div class="flex items-end">
+      <button
+        type="button"
+        id="reset-filters"
+        class="w-full bg-charcoal-900 text-white rounded-xl py-3 px-4 text-sm font-bold hover:bg-tomato-600 transition-all"
+      >
+        Reset Filters
+      </button>
+    </div>
+  </form>
+</div>

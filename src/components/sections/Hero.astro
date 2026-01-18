@@ -3,76 +3,83 @@
 ---
 
 <section
-  class="relative overflow-hidden bg-white flex items-center justify-center min-h-[80vh]"
+  class="relative overflow-hidden bg-charcoal-900 pt-32 pb-24 sm:pt-48 sm:pb-40"
 >
-  <!-- Subtle decorative gradients for a light theme -->
-  <div
-    class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none"
-  >
+  <!-- Technical Grid & Gradient Overlay -->
+  <div class="absolute inset-0 -z-10 overflow-hidden">
+    <!-- The Grid -->
     <div
-      class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-negroni-200/40 blur-[100px] rounded-full"
+      class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
     >
     </div>
+
+    <!-- Dark Radial Fade -->
     <div
-      class="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-tomato-100/30 blur-[100px] rounded-full"
+      class="absolute inset-0 bg-gradient-to-b from-transparent via-charcoal-900/50 to-charcoal-900"
     >
+    </div>
+
+    <!-- Decorative Glows -->
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10"
+    >
+      <div
+        class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-tomato-500/10 blur-[120px] rounded-full"
+      >
+      </div>
+      <div
+        class="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-negroni-500/10 blur-[120px] rounded-full"
+      >
+      </div>
     </div>
   </div>
 
-  <div class="relative mx-auto px-6 max-w-7xl py-24 md:px-12 w-full">
+  <div class="relative mx-auto px-6 max-w-7xl w-full">
     <div class="max-w-4xl mx-auto text-center">
       <!-- Badge -->
-      <span
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-negroni-100 border border-negroni-200 text-negroni-700 text-xs font-medium tracking-wide uppercase mb-8"
-      >
-        <span class="w-1.5 h-1.5 rounded-full bg-tomato-500 animate-pulse"
-        ></span>
-        Available on Itch.io
-      </span>
+      <div class="mb-10 flex justify-center">
+        <span
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-negroni-200 text-[10px] font-bold tracking-[0.2em] uppercase backdrop-blur-sm"
+        >
+          <span class="w-2 h-2 rounded-full bg-tomato-500 animate-pulse"></span>
+          Live on Itch.io
+        </span>
+      </div>
 
       <h1
-        class="text-4xl md:text-7xl font-bold tracking-tight text-charcoal-900 mb-8"
+        class="text-5xl md:text-8xl font-black tracking-tighter text-white mb-8 leading-[0.9] text-balance"
       >
-        High-Quality Assets for <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-tomato-500 to-negroni-700"
-          >Game Developers</span
-        >
+        <span
+          class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-tomato-500 to-negroni-400 italic pr-4"
+          >Assets</span
+        > for Game Devs.
       </h1>
 
       <p
-        class="text-lg md:text-xl text-charcoal-600 leading-relaxed mb-12 max-w-2xl mx-auto"
+        class="text-lg md:text-xl text-negroni-200/60 leading-relaxed mb-12 max-w-2xl mx-auto font-medium"
       >
-        We handle the heavy lifting of asset creation so you can focus on what
-        matters: <span class="text-charcoal-900 font-semibold italic"
-          >making your game fun.</span
+        Discover professional game assets for indie and studio projects. <span
+          class="text-white"
+          >Ready to use, optimized, and built for modern engines.</span
         >
       </p>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
         <a
-          href="https://aspecsgaming.itch.io"
+          href="/assets"
           target="_blank"
-          class="inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-tomato-500 rounded-full hover:bg-tomato-600 shadow-lg shadow-tomato-200 hover:shadow-xl w-full sm:w-auto"
+          class="inline-flex items-center justify-center px-10 py-4.5 font-bold text-charcoal-900 transition-all duration-300 bg-white rounded-full hover:bg-tomato-500 hover:text-white hover:scale-105 active:scale-95 shadow-2xl shadow-white/5 w-full sm:w-auto"
         >
-          Explore Assets
+          Browse Assets
         </a>
         <a
           href="/socials"
-          class="group inline-flex items-center justify-center px-8 py-4 font-bold text-charcoal-900 transition-all duration-200 border-2 border-charcoal-100 rounded-full hover:bg-charcoal-50 w-full sm:w-auto"
+          class="group inline-flex items-center justify-center px-10 py-4.5 font-bold text-white transition-all duration-300 border-2 border-white/10 rounded-full hover:bg-white/5 hover:border-white w-full sm:w-auto"
         >
           Follow Along
-          <svg
-            class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
+          <i
+            class="ri-arrow-right-line ml-2 text-xl transition-transform group-hover:translate-x-1"
+          ></i>
         </a>
       </div>
     </div>

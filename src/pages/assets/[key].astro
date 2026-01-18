@@ -1,5 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Section from "@/components/Section.astro";
+import Container from "@/components/Container.astro";
+import Heading from "@/components/Heading.astro";
 import type { Asset } from "@/models/asset";
 
 export async function getStaticPaths() {
@@ -37,88 +40,192 @@ export async function getStaticPaths() {
 }
 
 const { asset } = Astro.props as { asset: Asset };
-const currentYear = new Date().getFullYear();
 ---
 
 <Layout title={`${asset.title} - Aspecs Gaming`}>
-  <body>
-    <main class="relative overflow-hidden">
-      <section class="relative mx-auto px-8 max-w-7xl py-24 md:px-12">
-        <div class="grid grid-cols-1 gap-6">
-          <figure class="md:flex md:items-start md:gap-12">
-            <img
-              class="w-full md:w-1/2 rounded-3xl shadow-2xl object-cover"
-              src={asset.cover_url}
-              alt={`Cover for ${asset.title}`}
-            />
-            <div class="md:w-1/2 mt-6 md:mt-0">
-              <h1
-                class="text-3xl md:text-5xl font-bold text-negroni-500 mb-4 text-center md:text-left"
-              >
-                {asset.title}
-              </h1>
-              <p
-                class="text-md mb-6 text-center md:text-left max-w-2xl"
-              >
-                {asset.short_text || "No description available."}
-              </p>
-
-              <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
-                <div>
-                  <h2 class="text-xl font-semibold">Details:</h2>
-                  <ul class="mt-2 space-y-1">
-                    <li>
-                      <strong>Published on:</strong>
-                      {new Date(asset.published_at).toLocaleDateString()}
-                    </li>
-                    <li><strong>Views:</strong> {asset.views_count}</li>
-                    <li>
-                      <strong>Downloads:</strong>
-                      {asset.downloads_count}
-                    </li>
-                    <li>
-                      <strong>Minimum Price:</strong>
-                      {asset.min_price > 0 ? `$${asset.min_price}` : "Free"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {
-                asset.earnings && asset.earnings.length > 0 && (
-                  <div class="mt-6">
-                    <h2 class="text-xl font-semibold">Earnings:</h2>
-                    <ul class="mt-2 space-y-1">
-                      {asset.earnings.map((earning) => (
-                        <li>
-                          {earning.amount_formatted} ({earning.currency})
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              }
-              <div class="flex items-center mt-6 gap-4">
-                <a
-                  onclick="track('ViewOnItch')"
-                  href={asset.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="items-center h-12 justify-center rounded-full font-semibold duration-200 focus:outline-none inline-flex px-6 py-3 text-center border-2 hover:bg-transparent border-negroni-500 bg-negroni-500 focus-visible:outline-negroni-500 focus-visible:ring-negroni-500 hover:border-negroni-500 hover:text-negroni-500 text-charcoal-500"
-                >
-                  View on Itch.io
-                </a>
-                <a
-                  href="/assets"
-                  class="inline-flex items-center text-negroni-500 hover:text-negroni-300 font-semibold"
-                >
-                  Back to Assets
-                </a>
-              </div>
-            </div>
-          </figure>
+  <main class="bg-white">
+    <!-- Header Section (Technical Dark Style) -->
+    <Section class="relative bg-charcoal-900 pt-32 pb-16 overflow-hidden">
+      <!-- Background Patterns -->
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <div
+          class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+        >
         </div>
-      </section>
-    </main>
-  </body>
+        <div
+          class="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_80%,transparent_100%)]"
+        >
+        </div>
+        <div
+          class="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
+          style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"
+        >
+        </div>
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-transparent via-charcoal-900/50 to-charcoal-900"
+        >
+        </div>
+      </div>
+
+      <Container class="relative z-10">
+        <div class="mb-8">
+          <a
+            href="/assets"
+            class="text-negroni-200/50 hover:text-white flex items-center gap-2 transition-colors font-bold text-xs uppercase tracking-widest group"
+          >
+            <i
+              class="ri-arrow-left-line transition-transform group-hover:-translate-x-1"
+            ></i>
+            Back to Store
+          </a>
+        </div>
+        <Heading class="prose-invert">
+          <h1
+            slot="heading-title"
+            class="text-white text-5xl md:text-7xl font-black tracking-tighter mb-4"
+          >
+            {asset.title}<span class="text-tomato-500">.</span>
+          </h1>
+          <p
+            slot="heading-content"
+            class="text-negroni-200/60 text-lg max-w-2xl"
+          >
+            {
+              asset.short_text ||
+                "Premium game-ready asset kit for modern developers."
+            }
+          </p>
+        </Heading>
+      </Container>
+    </Section>
+
+    <!-- Main Content Section -->
+    <Section>
+      <Container>
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start"
+        >
+          <!-- Asset Preview -->
+          <div class="relative group">
+            <div
+              class="overflow-hidden rounded-3xl bg-charcoal-50 shadow-2xl border border-charcoal-100"
+            >
+              <img
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                src={asset.cover_url}
+                alt={`Cover for ${asset.title}`}
+              />
+            </div>
+            <!-- Decorative badge -->
+            <div
+              class="absolute -top-4 -right-4 bg-tomato-500 text-white font-black px-6 py-2 rounded-full shadow-xl transform rotate-3"
+            >
+              {asset.min_price > 0 ? `$${asset.min_price}` : "FREE"}
+            </div>
+          </div>
+
+          <!-- Asset Info -->
+          <div class="flex flex-col h-full">
+            <div
+              class="bg-charcoal-50 rounded-3xl p-8 border border-charcoal-100 mb-8"
+            >
+              <h2
+                class="text-2xl font-black text-charcoal-900 mb-6 flex items-center gap-3"
+              >
+                <i class="ri-information-line text-tomato-500"></i>
+                Specifications
+              </h2>
+              <ul class="space-y-4">
+                <li
+                  class="flex justify-between items-center border-b border-charcoal-200/50 pb-4"
+                >
+                  <span
+                    class="text-charcoal-500 font-bold uppercase text-xs tracking-widest"
+                    >Published</span
+                  >
+                  <span class="text-charcoal-900 font-bold"
+                    >{new Date(asset.published_at).toLocaleDateString()}</span
+                  >
+                </li>
+                <li
+                  class="flex justify-between items-center border-b border-charcoal-200/50 pb-4"
+                >
+                  <span
+                    class="text-charcoal-500 font-bold uppercase text-xs tracking-widest"
+                    >Downloads</span
+                  >
+                  <span class="text-charcoal-900 font-bold"
+                    >{asset.downloads_count.toLocaleString()}</span
+                  >
+                </li>
+                <li
+                  class="flex justify-between items-center border-b border-charcoal-200/50 pb-4"
+                >
+                  <span
+                    class="text-charcoal-500 font-bold uppercase text-xs tracking-widest"
+                    >Views</span
+                  >
+                  <span class="text-charcoal-900 font-bold"
+                    >{asset.views_count.toLocaleString()}</span
+                  >
+                </li>
+                <li class="flex justify-between items-center pb-2">
+                  <span
+                    class="text-charcoal-500 font-bold uppercase text-xs tracking-widest"
+                    >Pricing</span
+                  >
+                  <span class="text-tomato-600 font-black"
+                    >{
+                      asset.min_price > 0 ? `$${asset.min_price}+` : "Free"
+                    }</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <!-- CTA Actions -->
+            <div class="mt-auto flex flex-col sm:flex-row gap-4">
+              <a
+                href={asset.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-asset-id={asset.id}
+                data-asset-title={asset.title}
+                class="view-on-itch flex-1 inline-flex items-center justify-center px-10 py-5 font-bold text-white transition-all duration-300 bg-charcoal-900 rounded-2xl hover:bg-tomato-600 hover:scale-[1.02] active:scale-95 shadow-xl shadow-charcoal-900/10"
+              >
+                Get on Itch.io
+                <i class="ri-external-link-line ml-2 text-xl"></i>
+              </a>
+              <a
+                href="/socials"
+                class="inline-flex items-center justify-center px-10 py-5 font-bold text-charcoal-900 transition-all duration-300 border-2 border-charcoal-100 rounded-2xl hover:bg-charcoal-50 hover:border-charcoal-900"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  </main>
+
+  <script>
+    import { track } from "nano-custom";
+
+    // Track clicks on "View on Itch.io" button
+    document.querySelectorAll(".view-on-itch").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const target = e.currentTarget as HTMLAnchorElement;
+        const assetId = target.dataset.assetId;
+        const assetTitle = target.dataset.assetTitle;
+
+        if (typeof track === "function") {
+          track("ViewOnItch", {
+            assetId: assetId,
+            assetTitle: assetTitle,
+          });
+        }
+      });
+    });
+  </script>
 </Layout>

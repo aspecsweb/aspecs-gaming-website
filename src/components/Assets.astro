@@ -2,18 +2,9 @@
 interface Props {
   amount?: number;
   showSeeAll?: boolean;
-  priceFilter?: string;
-  sortType?: string;
-  sortDirection?: "asc" | "desc";
 }
 
-const {
-  amount,
-  showSeeAll = true,
-  priceFilter = "",
-  sortType = "published",
-  sortDirection = "desc",
-} = Astro.props;
+const { amount, showSeeAll = false } = Astro.props;
 
 const apiKey = import.meta.env.ITCHIO_KEY;
 if (!apiKey) throw new Error("ItchIO API Key is missing");
@@ -22,31 +13,12 @@ const fetchAssets = async () => {
   try {
     const response = await fetch(`https://itch.io/api/1/${apiKey}/my-games`);
     const data = await response.json();
+    const games = data.games.filter((g: any) => g.published);
 
-    let games = data.games;
-
-    if (priceFilter === "free") {
-      games = games.filter((game: any) => game.min_price === 0);
-    } else if (priceFilter === "paid") {
-      games = games.filter((game: any) => game.min_price > 0);
-    }
-
-    games.sort((a: any, b: any) => {
-      let comparison = 0;
-      switch (sortType) {
-        case "downloads":
-          comparison = (b.downloads_count || 0) - (a.downloads_count || 0);
-          break;
-        case "views":
-          comparison = (b.views_count || 0) - (a.views_count || 0);
-          break;
-        default:
-          comparison =
-            new Date(b.published_at).getTime() -
-            new Date(a.published_at).getTime();
-      }
-      return sortDirection === "asc" ? -comparison : comparison;
-    });
+    games.sort(
+      (a: any, b: any) =>
+        new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
+    );
 
     return amount ? games.slice(0, amount) : games;
   } catch (error) {
@@ -58,37 +30,40 @@ const fetchAssets = async () => {
 const assets = await fetchAssets();
 ---
 
-<div class="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2" id="assets-grid">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16" id="assets-grid">
   {
-    assets.map(
-      (asset) =>
-        asset.published && (
-          <figure class="group">
-            <a href={`/assets/${asset.id}`} class="block">
-              <div class="overflow-hidden rounded-2xl bg-charcoal-50 aspect-video mb-6 shadow-sm border border-charcoal-100">
-                <img
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  src={asset.cover_url}
-                  alt={`Cover for ${asset.title}`}
-                />
-              </div>
-              <div class="px-2">
-                <div class="flex justify-between items-start mb-2">
-                  <h3 class="text-xl font-bold text-charcoal-900 group-hover:text-tomato-600 transition-colors">
-                    {asset.title}
-                  </h3>
-                  <p class="text-sm font-bold text-tomato-500">
-                    {asset.min_price === 0 ? "Free" : "Paid"}
-                  </p>
-                </div>
-                <p class="text-charcoal-500 leading-relaxed line-clamp-2">
-                  {asset.short_text || "No description, just vibes."}
-                </p>
-              </div>
-            </a>
-          </figure>
-        ),
-    )
+    assets.map((asset: any) => (
+      <figure
+        class="group"
+        data-free={asset.min_price === 0}
+        data-downloads={asset.downloads_count || 0}
+        data-views={asset.views_count || 0}
+        data-published={new Date(asset.published_at).getTime()}
+      >
+        <a href={`/assets/${asset.id}`} class="block">
+          <div class="overflow-hidden rounded-2xl bg-charcoal-50 aspect-video mb-6 shadow-sm border border-charcoal-100">
+            <img
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              src={asset.cover_url}
+              alt={asset.title}
+            />
+          </div>
+          <div class="px-2">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-bold text-charcoal-900 group-hover:text-tomato-600 transition-colors">
+                {asset.title}
+              </h3>
+              <p class="text-sm font-bold text-tomato-500">
+                {asset.min_price === 0 ? "Free" : `$${asset.min_price}`}
+              </p>
+            </div>
+            <p class="text-charcoal-500 leading-relaxed line-clamp-2">
+              {asset.short_text || "Premium game-ready asset pack."}
+            </p>
+          </div>
+        </a>
+      </figure>
+    ))
   }
 </div>
 
@@ -96,8 +71,8 @@ const assets = await fetchAssets();
   showSeeAll && amount && (
     <div class="text-center mt-20">
       <a
-        class="inline-flex items-center justify-center h-14 px-10 font-bold rounded-full border-2 border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition-all duration-200"
         href="/assets"
+        class="inline-flex items-center justify-center h-14 px-10 font-bold rounded-full border-2 border-charcoal-900 text-charcoal-900 hover:bg-charcoal-900 hover:text-white transition-all duration-300"
       >
         See All Assets
       </a>
