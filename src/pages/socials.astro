@@ -19,6 +19,7 @@ import { links } from "@/lib/sociallinks";
             <li>
               <a
                 href={link.href}
+                onclick={`track('FollowOn', { platform: '${link.label}' })`}
                 class="block bg-negroni-500 text-white text-lg font-bold py-4 px-6 rounded-full shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl"
                 target="_blank"
                 rel="noopener noreferrer"

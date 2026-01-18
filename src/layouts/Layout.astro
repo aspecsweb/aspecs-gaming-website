@@ -6,6 +6,13 @@ import "../styles/styles.css";
 import { ClientRouter } from "astro:transitions";
 ---
 
+<script>
+  import "nano-analytics";
+  import "nano-insights";
+  import { track } from "nano-custom";
+</script>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -31,4 +38,14 @@ import { ClientRouter } from "astro:transitions";
     <slot />
     <Footer />
   </body>
+
+  <nano-analytics
+    projectKey="mkjplo4gnatyq"
+  />
+  <nano-insights
+    projectKey="mkjplo4gnatyq"
+  />
+  <nano-custom
+    projectKey="mkjplo4gnatyq"
+  />
 </html>
