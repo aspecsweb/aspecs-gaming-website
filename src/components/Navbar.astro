@@ -1,34 +1,126 @@
 ---
-
+const navLinks = [
+  { name: "Assets", href: "/assets" },
+  { name: "Socials", href: "/socials" },
+  { name: "Imprint", href: "/imprint" },
+];
 ---
 
-<nav class="sticky top-0 z-100 bg-charcoal-800 shadow-md">
+<nav class="sticky top-0 z-50 bg-charcoal-800 shadow-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
       <div class="flex items-center">
-        <a href="/" class="text-negroni-500 font-bold text-xl hover:text-tomato-500 duration-200"
-          >Aspecs Gaming</a
+        <a
+          href="/"
+          class="text-negroni-500 font-bold text-xl hover:text-tomato-500 duration-200"
         >
+          Aspecs Gaming
+        </a>
       </div>
+
+      <!-- Desktop Navigation -->
       <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
-          <a
-            href="/assets"
-            class="text-white hover:text-negroni-500 px-3 py-2 rounded-md text-sm font-medium duration-200"
-            >Assets</a
-          >
-          <a
-            href="/socials"
-            class="text-white hover:text-negroni-500 px-3 py-2 rounded-md text-sm font-medium duration-200"
-            >Socials</a
-          >
-          <a
-            href="/imprint"
-            class="text-white hover:text-negroni-500 px-3 py-2 rounded-md text-sm font-medium duration-200"
-            >Imprint</a
-          >
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                class="text-white hover:text-negroni-500 px-3 py-2 rounded-md text-sm font-medium duration-200"
+              >
+                {link.name}
+              </a>
+            ))
+          }
         </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button
+          type="button"
+          id="mobile-menu-button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-negroni-500 hover:text-tomato-500 hover:bg-charcoal-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-negroni-500 transition-colors duration-200"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg
+            id="menu-icon"
+            class="block h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg
+            id="close-icon"
+            class="hidden h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
+
+  <!-- Mobile menu -->
+  <div class="md:hidden hidden" id="mobile-menu">
+    <div
+      class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-charcoal-900 border-t border-charcoal-700"
+    >
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-white hover:text-negroni-500 hover:bg-charcoal-700 block px-3 py-2 rounded-md text-base font-medium duration-200"
+          >
+            {link.name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </nav>
+
+<script>
+  const button = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+
+  let isOpen = false;
+
+  const toggleMenu = (state?: boolean) => {
+    isOpen = state ?? !isOpen;
+    menu?.classList.toggle("hidden", !isOpen);
+    menuIcon?.classList.toggle("hidden", isOpen);
+    closeIcon?.classList.toggle("hidden", !isOpen);
+    button?.setAttribute("aria-expanded", isOpen.toString());
+  };
+
+  button?.addEventListener("click", () => toggleMenu());
+
+  // Close on outside click or link click
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const isLink = target.closest("#mobile-menu a");
+    const isOutside = !button?.contains(target) && !menu?.contains(target);
+
+    if (isOpen && (isLink || isOutside)) {
+      toggleMenu(false);
+    }
+  });
+</script>
